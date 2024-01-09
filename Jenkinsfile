@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         VERACODE_APP_NAME = 'scala-hmda'      // App Name in the Veracode Platform
-        SBT_HOME="${tool 'sbt_156'}"
+        SBT_HOME="${tool 'mySbt'}"
         PATH="${env.SBT_HOME}/bin:${env.PATH}"
     }
 

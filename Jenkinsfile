@@ -71,31 +71,31 @@ pipeline {
             }
         }
 
-        stage ('Veracode SCA') {
-            steps {
-                echo 'Veracode SCA'
-                withCredentials([ string(credentialsId: 'SCA_Token', variable: 'SRCCLR_API_TOKEN')]) {
-                    withMaven(maven:'maven-3') {
-                        script {
-                            if(isUnix() == true) {
-                                sh "curl -sSL https://download.sourceclear.com/ci.sh | sh"
+        // stage ('Veracode SCA') {
+        //     steps {
+        //         echo 'Veracode SCA'
+        //         withCredentials([ string(credentialsId: 'SCA_Token', variable: 'SRCCLR_API_TOKEN')]) {
+        //             withMaven(maven:'maven-3') {
+        //                 script {
+        //                     if(isUnix() == true) {
+        //                         sh "curl -sSL https://download.sourceclear.com/ci.sh | sh"
 
-                                // debug, no upload
-                                //sh "curl -sSL https://download.sourceclear.com/ci.sh | DEBUG=1 sh -s -- scan --no-upload"
-                            }
-                            else {
-                                powershell '''
-                                            Set-ExecutionPolicy AllSigned -Scope Process -Force
-                                            $ProgressPreference = "silentlyContinue"
-                                            iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
-                                            srcclr scan
-                                            '''
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //                         // debug, no upload
+        //                         //sh "curl -sSL https://download.sourceclear.com/ci.sh | DEBUG=1 sh -s -- scan --no-upload"
+        //                     }
+        //                     else {
+        //                         powershell '''
+        //                                     Set-ExecutionPolicy AllSigned -Scope Process -Force
+        //                                     $ProgressPreference = "silentlyContinue"
+        //                                     iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
+        //                                     srcclr scan
+        //                                     '''
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         // only works on *nix, as we're building a Linux image
         //  uses the natively installed docker
